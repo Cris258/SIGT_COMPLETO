@@ -1,0 +1,153 @@
+
+/* Estilos Generales para la Aplicación */
+.app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ocupa al menos la altura de la pantalla */
+    font-family: Arial, sans-serif;
+    background-color: #f4f7f9;
+}
+
+/* --- HEADER --- */
+.app-header {
+    background-color: #007bff;
+    color: white;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.app-header h1 {
+    font-size: 1.5em;
+    margin: 0;
+}
+
+.app-header nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.app-header nav a:hover {
+    color: #a0c9ff;
+}
+
+/* --- MAIN CONTENT (Formulario) --- */
+.main-content {
+    flex-grow: 1; /* Esto hace que el contenido principal ocupe el espacio restante */
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Alinea al inicio si la pantalla es grande */
+}
+
+.card-form {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+}
+
+.card-title {
+    color: #333;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    color: #007bff;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 0.9em;
+}
+
+/* Fieldset and Legend for sections */
+fieldset {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+}
+
+legend {
+    font-weight: bold;
+    color: #007bff;
+    padding: 0 10px;
+}
+
+/* Form Inputs */
+label {
+    display: block;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #555;
+}
+
+input[type="text"], 
+input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box; /* Incluye padding en el ancho */
+}
+
+/* Status Messages */
+.status-message {
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.error-msg {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.success-msg {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+/* Submit Button */
+.submit-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #28a745; /* Color verde para "Registrar" */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submit-button:hover:not(:disabled) {
+    background-color: #218838;
+}
+
+.submit-button:disabled {
+    background-color: #90ee90;
+    cursor: not-allowed;
+}
+
+/* --- FOOTER --- */
+.app-footer {
+    background-color: #343a40;
+    color: #adb5bd;
+    padding: 15px 0;
+    text-align: center;
+    font-size: 0.9em;
+}

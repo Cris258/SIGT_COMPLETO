@@ -1,0 +1,18 @@
+body {
+      background-color: #f9f9f9;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .container {
+      margin-top: 50px;
+    }
+    .btn-custom {
+      background-color: #e5b1f4;
+      color: black;
+      border: none;
+    }
+    .btn-custom:hover {
+      background-color: #d28be5;
+    }
+    .table th, .table td {
+      vertical-align: middle;
+    }

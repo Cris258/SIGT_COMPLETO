@@ -1,0 +1,61 @@
+body {
+  background-color: #f0f0f0;
+}
+
+header {
+  background: #f1d7ff;
+  padding: 30px;
+}
+
+@media (max-width: 767.98px) {
+  .menu {
+    margin-top: 1rem;
+  }
+}
+
+.merriweather-font {
+  font-family: "Merriweather", serif;
+}
+
+h5 {
+  font-family: "Merriweather", serif;
+}
+
+.minilogo {
+  height: 70px;
+  border-radius: 50%;
+  border: 1px solid black;
+}
+
+.login {
+  background: #e5bafc;
+  margin-right: 20px;
+  border-radius: 20px;
+  padding: 0.5rem 1.5rem;
+}
+
+.login:hover {
+  background: #b280cc;
+  transition: 0.3s;
+}
+
+footer {
+  background: #e5bafc;
+}
+
+.modal-header {
+  background: #f1d7ff;
+}
+
+.custom-btn {
+  background: #e5bafc;
+}
+
+.custom-btn:hover {
+  background: #b280cc;
+  transition: 0.3s;
+}
+
+.card-header {
+  background: rgb(163, 233, 233);
+}

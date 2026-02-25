@@ -1,0 +1,135 @@
+body {
+  background-color: #f0f0f0;
+}
+
+header {
+  background: #f1d7ff;
+  padding: 30px;
+}
+
+@media (max-width: 767.98px) {
+  .menu {
+    margin-top: 1rem;
+  }
+}
+
+.merriweather-font {
+  font-family: "Merriweather", serif;
+}
+
+h5 {
+  font-family: "Merriweather", serif;
+}
+
+.minilogo {
+  height: 70px;
+  border-radius: 50%;
+  border: 1px solid black;
+}
+
+.login {
+  background: #e5bafc;
+  margin-right: 20px;
+  border-radius: 20px;
+  padding: 0.5rem 1.5rem;
+}
+
+.login:hover {
+  background: #b280cc;
+  transition: 0.3s;
+}
+
+form .form-control {
+  height: 50px;
+  font-size: 1rem;
+}
+
+.boton {
+  background: linear-gradient(90deg, #d37fff, #c76aff);
+  color: black;
+  border: none;
+  border-radius: 50px;
+  padding: 12px 20px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.boton:hover {
+  background: linear-gradient(90deg, #c76aff, #d37fff);
+}
+
+.img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.8;
+  border-radius: 0 8px 8px 0;
+}
+
+.col-md-4 {
+  padding: 0;
+}
+
+.feature-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  padding: 2rem;
+  height: 100%;
+  min-height: 500px;
+}
+
+.feature-card .row {
+  height: 100%;
+}
+
+.encabezado-modal {
+  background-color: #f1d7ff;
+}
+
+.btn-custom {
+  background-color: #e5bafc;
+  color: black;
+  border: none;
+  transition: background-color 0.3s ease;
+}
+
+.btn-custom:hover {
+  background-color: #b280cc;
+  color: black;
+}
+
+footer {
+  background: #e5bafc;
+}
+
+.footertitulos {
+  color: #230c79;
+}
+
+.boton-login {
+  background-color: #d7a8ff;
+  border: none;
+  border-radius: 50px;
+  padding: 10px 0;
+  font-weight: bold;
+  font-size: 16px;
+  width: 100%;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.boton-login:hover {
+  background-color: #c18cff;
+}
+
+.link-login {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.link-login:hover {
+  text-decoration: underline;
+}

@@ -15,7 +15,7 @@ import Registro from "./pages/Registro";
 import RegistroUsuarios from "./pages/RegistroUsuarios";
 import ListarEmpleados from "./pages/ListarEmpleados";
 import RegistroProductos from "./pages/RegistroProductos";
-import ListarProductos from "./pages/listarProductos";
+import ListarProductos from "./pages/ListarProductos";
 import ListarClientes from "./pages/ListarClientes";
 import Cliente from "./pages/Cliente";
 import PageHistorialCompras from "./pages/PageHistorialCompras";

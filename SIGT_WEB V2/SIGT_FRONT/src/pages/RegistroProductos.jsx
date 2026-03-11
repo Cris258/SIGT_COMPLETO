@@ -272,7 +272,7 @@ function RegistroProductos() {
         });
       }
 
-      const response = await fetch("http://localhost:3001/api/producto", {
+      const response = await fetch("${import.meta.env.VITE_API_URL}/api/producto", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,

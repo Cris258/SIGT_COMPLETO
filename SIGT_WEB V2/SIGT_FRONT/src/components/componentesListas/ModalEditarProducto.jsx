@@ -104,12 +104,12 @@ export default function ModalEditarProducto({ producto, onClose, onGuardar }) {
 
       console.log(
         "📤 Enviando actualización a:",
-        `http://localhost:3001/api/producto/${producto.idProducto}`
+        `${import.meta.env.VITE_API_URL}/api/producto/${producto.idProducto}`
       );
       console.log("📦 Datos:", datosParaActualizar);
 
       const response = await fetch(
-        `http://localhost:3001/api/producto/${producto.idProducto}`,
+        `${import.meta.env.VITE_API_URL}/api/producto/${producto.idProducto}`,
         {
           method: "PUT",
           headers: {

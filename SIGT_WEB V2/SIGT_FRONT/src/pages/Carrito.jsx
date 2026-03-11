@@ -365,7 +365,7 @@ function Carrito() {
 
       // PASO 1: Crear el Carrito
       const carritoData = { FechaCreacion: new Date().toISOString(), Estado: "Pendiente", Persona_FK: parseInt(idPersona) };
-      const carritoResponse = await fetch("http://localhost:3001/api/carrito", {
+      const carritoResponse = await fetch("${import.meta.env.VITE_API_URL}/api/carrito", {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify(carritoData),
@@ -378,7 +378,7 @@ function Carrito() {
 
       // PASO 2: Crear los DetalleCarrito
       await Promise.all(productosAComprar.map(async (producto) => {
-        const res = await fetch("http://localhost:3001/api/detallecarrito", {
+        const res = await fetch("${import.meta.env.VITE_API_URL}/api/detallecarrito", {
           method: "POST",
           headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
           body: JSON.stringify({ Carrito_FK: idCarrito, Producto_FK: producto.idProducto, Cantidad: producto.cantidad }),
@@ -398,7 +398,7 @@ function Carrito() {
         Ciudad: direccionData.Ciudad,
         Departamento: direccionData.Departamento,
       };
-      const ventaResponse = await fetch("http://localhost:3001/api/venta", {
+      const ventaResponse = await fetch("${import.meta.env.VITE_API_URL}/api/venta", {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify(ventaData),
@@ -411,7 +411,7 @@ function Carrito() {
 
       // PASO 4: Crear los DetalleVenta
       await Promise.all(productosAComprar.map(async (producto) => {
-        const res = await fetch("http://localhost:3001/api/detalleventa", {
+        const res = await fetch("${import.meta.env.VITE_API_URL}/api/detalleventa", {
           method: "POST",
           headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
           body: JSON.stringify({ Venta_FK: idVenta, Producto_FK: producto.idProducto, Cantidad: producto.cantidad, PrecioUnitario: producto.precio }),
@@ -423,7 +423,7 @@ function Carrito() {
 
       // PASO 5: Crear Movimientos de Salida
       await Promise.all(productosAComprar.map(async (producto) => {
-        const res = await fetch("http://localhost:3001/api/movimiento", {
+        const res = await fetch("${import.meta.env.VITE_API_URL}/api/movimiento", {
           method: "POST",
           headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
           body: JSON.stringify({
@@ -439,7 +439,7 @@ function Carrito() {
 
       // PASO 6: Actualizar stock
       await Promise.all(productosAComprar.map(async (producto) => {
-        const res = await fetch(`http://localhost:3001/api/producto/${producto.idProducto}`, {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/producto/${producto.idProducto}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
           body: JSON.stringify({ Stock: producto.stock - producto.cantidad }),
@@ -449,7 +449,7 @@ function Carrito() {
       console.log("✅ Stock actualizado");
 
       // PASO 7: Actualizar estado carrito
-      await fetch(`http://localhost:3001/api/carrito/${idCarrito}`, {
+      await fetch(`${import.meta.env.VITE_API_URL}/api/carrito/${idCarrito}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify({ Estado: "completado" }),

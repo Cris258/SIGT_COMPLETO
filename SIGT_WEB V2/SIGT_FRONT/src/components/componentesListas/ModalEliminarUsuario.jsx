@@ -21,7 +21,7 @@ export default function ModalEliminar({
       console.log(`🗑️ Eliminando ${tipoUsuario}:`, usuario.idPersona);
 
       const response = await fetch(
-        `http://localhost:3001/api/persona/${usuario.idPersona}`,
+        `${import.meta.env.VITE_API_URL}/api/persona/${usuario.idPersona}`,
         {
           method: "DELETE",
           headers: {

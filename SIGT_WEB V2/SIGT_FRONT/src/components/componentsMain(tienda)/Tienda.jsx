@@ -280,7 +280,7 @@ function TiendaPublica() {
       setError(null);
 
       // Endpoint público, sin token
-      const res = await fetch("http://localhost:3001/api/productos/agrupados", {
+      const res = await fetch("${import.meta.env.VITE_API_URL}/api/productos/agrupados", {
         headers: { "Content-Type": "application/json" },
       });
 

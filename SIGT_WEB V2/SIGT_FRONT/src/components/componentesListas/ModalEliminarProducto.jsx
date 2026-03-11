@@ -55,7 +55,7 @@ export default function ModalEliminarProducto({ producto, onClose, onConfirmar }
       console.log(`🗑️ Eliminando producto:`, producto.idProducto);
 
       const response = await fetch(
-        `http://localhost:3001/api/producto/${producto.idProducto}`,
+        `${import.meta.env.VITE_API_URL}/api/producto/${producto.idProducto}`,
         {
           method: "DELETE",
           headers: {

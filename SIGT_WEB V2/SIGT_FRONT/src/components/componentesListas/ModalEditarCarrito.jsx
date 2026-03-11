@@ -24,7 +24,7 @@ export default function ModalEditarCarrito({ carrito, onClose, onGuardar }) {
       const token = localStorage.getItem("token"); // por si usas auth
 
       const response = await fetch(
-        `http://localhost:3001/api/carrito/${carrito.idCarrito}`,
+        `${import.meta.env.VITE_API_URL}/api/carrito/${carrito.idCarrito}`,
         {
           method: "PUT",
           headers: {

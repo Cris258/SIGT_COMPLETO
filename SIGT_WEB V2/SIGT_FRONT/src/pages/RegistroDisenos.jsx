@@ -19,7 +19,7 @@ function RegistroDiseños() {
 
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:3001/api/diseno", {
+      const response = await fetch("${import.meta.env.VITE_API_URL}/api/diseno", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,

@@ -26,7 +26,7 @@ export default function ListaCarritos() {
   const cargarCarritos = async () => {
     const token = localStorage.getItem("token");
     try {
-      const res = await fetch("http://localhost:3001/api/carrito", {
+      const res = await fetch("${import.meta.env.VITE_API_URL}/api/carrito", {
         method: "GET",
         headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
       });
@@ -36,7 +36,7 @@ export default function ListaCarritos() {
         data.body.map(async (carrito) => {
           try {
             const resPersona = await fetch(
-              `http://localhost:3001/api/persona/${carrito.Persona_FK}`,
+              `${import.meta.env.VITE_API_URL}/api/persona/${carrito.Persona_FK}`,
               { headers: { Authorization: `Bearer ${token}` } },
             );
             if (resPersona.ok) {
@@ -65,7 +65,7 @@ export default function ListaCarritos() {
     const token = localStorage.getItem("token");
     try {
       const response = await fetch(
-        `http://localhost:3001/api/detallecarrito/carrito/${idCarrito}`,
+        `${import.meta.env.VITE_API_URL}/api/detallecarrito/carrito/${idCarrito}`,
         { method: "GET", headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" } },
       );
       if (response.ok) {

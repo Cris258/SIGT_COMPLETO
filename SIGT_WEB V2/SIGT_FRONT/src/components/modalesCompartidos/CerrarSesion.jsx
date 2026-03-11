@@ -23,7 +23,7 @@ const CerrarSesion = ({ className = "nav-link custom-link" }) => {
 
     try {
       // Llamada al endpoint de logout
-      const response = await fetch("http://localhost:3001/api/persona/logout", {
+      const response = await fetch("${import.meta.env.VITE_API_URL}/api/persona/logout", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

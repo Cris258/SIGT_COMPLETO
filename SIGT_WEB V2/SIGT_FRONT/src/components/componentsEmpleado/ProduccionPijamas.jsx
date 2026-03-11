@@ -31,7 +31,7 @@ export default function RegistrarProduccion() {
       setErrorMessage(null);
       
       const token = localStorage.getItem("token");
-      const API_URL = "http://localhost:3001/api";
+      const API_URL = "${import.meta.env.VITE_API_URL}/api";
 
       console.log("📡 Cargando tareas...");
 
@@ -126,7 +126,7 @@ const actualizarEstadoLocal = (idTarea, nuevoEstado) => {
 };
 
 const cambiarEstadoTarea = async (idTarea, nuevoEstado) => {
-  const API_URL = "http://localhost:3001/api";
+  const API_URL = "${import.meta.env.VITE_API_URL}/api";
   try {
     const token = localStorage.getItem("token");
     console.log(`🔄 Cambiando estado de tarea ${idTarea} a ${nuevoEstado}`);
@@ -157,7 +157,7 @@ const cambiarEstadoTarea = async (idTarea, nuevoEstado) => {
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
-      const API_URL = "http://localhost:3001/api";
+      const API_URL = "${import.meta.env.VITE_API_URL}/api";
 
       console.log(`✅ Completando tarea ${idTarea}`);
 

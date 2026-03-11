@@ -39,7 +39,7 @@ export default function AdminClientesPage() {
       setPaginaActual(0);
       const token = localStorage.getItem("token");
       const config = { headers: { Authorization: `Bearer ${token}` } };
-      const API_URL = "http://localhost:3001/api";
+      const API_URL = "${import.meta.env.VITE_API_URL}/api";
       const resClientes = await axios.get(`${API_URL}/clientes-compras`, config);
       setClientes(resClientes.data.data || []);
       const resTop = await axios.get(`${API_URL}/top-clientes`, config);

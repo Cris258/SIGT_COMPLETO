@@ -7,7 +7,7 @@ export default function ModalEliminarTarea({ tarea, onClose, onConfirmar }) {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        `http://localhost:3001/api/tarea/${tarea.idTarea}`,
+        `${import.meta.env.VITE_API_URL}/api/tarea/${tarea.idTarea}`,
         {
           method: "DELETE",
           headers: {

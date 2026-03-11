@@ -18,7 +18,7 @@ export default function ModalEliminarVenta({ venta, onClose, onConfirmar }) {
       const token = localStorage.getItem("token");
 
       const response = await fetch(
-        `http://localhost:3001/api/ventas/${venta.idVenta}`,
+        `${import.meta.env.VITE_API_URL}/api/ventas/${venta.idVenta}`,
         {
           method: "DELETE",
           headers: {

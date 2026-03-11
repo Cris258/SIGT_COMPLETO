@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api/reportes';
+const API_URL = import.meta.env.VITE_API_URL || '${import.meta.env.VITE_API_URL}/api/reportes';
 
 const getToken = () => localStorage.getItem('token');
 

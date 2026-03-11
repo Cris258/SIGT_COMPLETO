@@ -148,12 +148,12 @@ export default function ModalEditarUsuario({ usuario, onClose, onGuardar }) {
 
       console.log(
         "📤 Enviando actualización a:",
-        `http://localhost:3001/api/persona/${usuario.idPersona}`
+        `${import.meta.env.VITE_API_URL}/api/persona/${usuario.idPersona}`
       );
       console.log("📦 Datos:", datosParaActualizar);
 
       const response = await fetch(
-        `http://localhost:3001/api/persona/${usuario.idPersona}`,
+        `${import.meta.env.VITE_API_URL}/api/persona/${usuario.idPersona}`,
         {
           method: "PUT",
           headers: {

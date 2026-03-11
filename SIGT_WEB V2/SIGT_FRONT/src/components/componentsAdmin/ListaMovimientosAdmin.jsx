@@ -15,7 +15,7 @@ export default function ListaMovimientosAdmin() {
   const [loadingDetalles, setLoadingDetalles] = useState(false);
   const [generandoPDF, setGenerandoPDF] = useState(false);
 
-  const API_URL = "http://localhost:3001/api";
+  const API_URL = "${import.meta.env.VITE_API_URL}/api";
 
   useEffect(() => { cargarTodosDatos(); }, []);
 

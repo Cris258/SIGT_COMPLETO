@@ -103,7 +103,7 @@ export default function ModalEliminarCarrito({ carrito, onClose, onConfirmar }) 
       console.log("🔐 token:", !!token);
 
       const response = await fetch(
-        `http://localhost:3001/api/carrito/${carrito.idCarrito}`,
+        `${import.meta.env.VITE_API_URL}/api/carrito/${carrito.idCarrito}`,
         {
           method: "DELETE",
           headers: {

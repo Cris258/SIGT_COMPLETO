@@ -20,7 +20,7 @@ export default function ListaUsuarios() {
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    fetch("http://localhost:3001/api/persona", {
+    fetch("${import.meta.env.VITE_API_URL}/api/persona", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

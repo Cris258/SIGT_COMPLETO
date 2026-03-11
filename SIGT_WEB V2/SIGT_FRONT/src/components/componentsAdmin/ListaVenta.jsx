@@ -26,7 +26,7 @@ export default function ListaVentas() {
   const cargarVentas = async () => {
     const token = localStorage.getItem("token");
     try {
-      const res = await fetch("http://localhost:3001/api/venta", {
+      const res = await fetch("${import.meta.env.VITE_API_URL}/api/venta", {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -39,7 +39,7 @@ export default function ListaVentas() {
         data.body.map(async (venta) => {
           try {
             const resPersona = await fetch(
-              `http://localhost:3001/api/persona/${venta.Persona_FK}`,
+              `${import.meta.env.VITE_API_URL}/api/persona/${venta.Persona_FK}`,
               { headers: { Authorization: `Bearer ${token}` } },
             );
             if (resPersona.ok) {
@@ -68,7 +68,7 @@ export default function ListaVentas() {
     const token = localStorage.getItem("token");
     try {
       const response = await fetch(
-        `http://localhost:3001/api/detalleventa/venta/${idVenta}`,
+        `${import.meta.env.VITE_API_URL}/api/detalleventa/venta/${idVenta}`,
         {
           method: "GET",
           headers: {

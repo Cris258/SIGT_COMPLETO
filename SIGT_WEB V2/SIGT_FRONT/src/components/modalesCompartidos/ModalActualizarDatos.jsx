@@ -54,7 +54,7 @@ const ActualizarDatosModal = () => {
         return;
       }
 
-      const url = `http://localhost:3001/api/persona/${userId}`;
+      const url = `${import.meta.env.VITE_API_URL}/api/persona/${userId}`;
       console.log('🌐 Haciendo petición GET a:', url);
       
       const response = await fetch(url, {
@@ -205,7 +205,7 @@ const ActualizarDatosModal = () => {
 
       console.log('📤 Enviando actualización:', datosParaActualizar);
 
-      const response = await fetch(`http://localhost:3001/api/persona/${userId}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/persona/${userId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

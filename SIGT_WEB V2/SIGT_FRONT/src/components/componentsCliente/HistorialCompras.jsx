@@ -21,7 +21,7 @@ const procesarImg = (url) => {
   const s = String(url).trim();
   if (!s || s === "null") return null;
   if (s.startsWith("http")) return s;
-  return `http://localhost:3001${s}`;
+  return `${import.meta.env.VITE_API_URL}${s}`;
 };
 
 // ── Modal detalle de venta ────────────────────────────────────────────────────
@@ -183,7 +183,7 @@ export default function HistorialCompras() {
       if (!idPersona) idPersona = localStorage.getItem("idPersona");
       if (!token || !idPersona) throw new Error("No hay sesión activa.");
 
-      const res = await fetch(`http://localhost:3001/api/venta/historial/${idPersona}`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/venta/historial/${idPersona}`, {
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
       });
       if (res.status === 404) { setVentas([]); return; }

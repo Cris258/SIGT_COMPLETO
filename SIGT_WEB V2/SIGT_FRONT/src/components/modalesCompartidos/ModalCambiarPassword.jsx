@@ -95,7 +95,7 @@ const CambiarPasswordModal = () => {
         return;
       }
 
-      const url = `http://localhost:3001/api/persona/${userId}/password`;
+      const url = `${import.meta.env.VITE_API_URL}/api/persona/${userId}/password`;
       console.log('🌐 Haciendo petición PUT a:', url);
 
       const response = await fetch(url, {

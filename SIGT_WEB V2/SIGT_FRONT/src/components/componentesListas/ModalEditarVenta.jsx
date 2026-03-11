@@ -46,7 +46,7 @@ export default function ModalEditarVenta({ venta, onClose, onGuardar }) {
 
     try {
       const response = await fetch(
-        `http://localhost:3001/api/venta/${formData.idVenta}`,
+        `${import.meta.env.VITE_API_URL}/api/venta/${formData.idVenta}`,
         {
           method: "PUT",
           headers: {

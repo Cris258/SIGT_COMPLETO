@@ -12,7 +12,7 @@ export default function ListaDiseños() {
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    fetch("http://localhost:3001/api/diseno", {
+    fetch("${import.meta.env.VITE_API_URL}/api/diseno", {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

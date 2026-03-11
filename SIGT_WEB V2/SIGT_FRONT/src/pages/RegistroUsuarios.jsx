@@ -24,7 +24,7 @@ function RegistroUsuarios() {
     const fetchRoles = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await fetch("http://localhost:3001/api/rol", {
+        const response = await fetch("${import.meta.env.VITE_API_URL}/api/rol", {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
@@ -53,7 +53,7 @@ function RegistroUsuarios() {
 
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("http://localhost:3001/api/persona", {
+      const response = await fetch("${import.meta.env.VITE_API_URL}/api/persona", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,

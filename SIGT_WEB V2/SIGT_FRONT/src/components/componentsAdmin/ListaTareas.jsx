@@ -26,10 +26,10 @@ export default function ListaTareas() {
     const token = localStorage.getItem("token");
     try {
       const [resTareas, resPersonas] = await Promise.all([
-        fetch("http://localhost:3001/api/tarea", {
+        fetch("${import.meta.env.VITE_API_URL}/api/tarea", {
           headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
         }),
-        fetch("http://localhost:3001/api/persona", {
+        fetch("${import.meta.env.VITE_API_URL}/api/persona", {
           headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
         }),
       ]);

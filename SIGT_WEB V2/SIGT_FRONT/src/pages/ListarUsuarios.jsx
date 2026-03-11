@@ -1,4 +1,4 @@
-import ListaUsuarios from "../components/componentsAdmin/listaUsuarios";
+import ListaUsuarios from "../components/componentsAdmin/ListaUsuarios";
 import FooterLine from "../components/FooterLine";
 
 export default function listarUsuarios() {

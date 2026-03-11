@@ -52,7 +52,6 @@ function App() {
         <Route path="/ListarEmpleados" element={<ListarEmpleados />} />
         <Route path="/RegistroProductos" element={<RegistroProductos />} />
         <Route path="/ListarProductos" element={<ListarProductos />} />
-        <Route path="/listarEmpleados" element={<listarEmpleados />} />
         <Route path="/ListarClientes" element={<ListarClientes />} />
         <Route path="/Cliente" element={<Cliente />} />
         <Route path="/AsignarTareaAdmin" element={<AsignarTareaAdmin />} />

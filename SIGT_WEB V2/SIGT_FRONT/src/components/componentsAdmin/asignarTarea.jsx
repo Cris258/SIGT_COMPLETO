@@ -56,7 +56,7 @@ function AsignarTareas() {
 
   const fetchEmpleados = async (token) => {
     try {
-      const response = await fetch("${import.meta.env.VITE_API_URL}/api/persona", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/persona`, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
@@ -82,7 +82,7 @@ function AsignarTareas() {
 
   const fetchProductos = async (token) => {
     try {
-      const response = await fetch("${import.meta.env.VITE_API_URL}/api/producto", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/producto`, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
@@ -191,7 +191,7 @@ function AsignarTareas() {
 
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch("${import.meta.env.VITE_API_URL}/api/tarea", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/tarea`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,

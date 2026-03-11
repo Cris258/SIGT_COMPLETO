@@ -18,7 +18,7 @@ export default function ModalEditarTarea({ tarea, onClose, onGuardar }) {
     const fetchEmpleados = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await fetch("${import.meta.env.VITE_API_URL}/api/persona", {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/persona`, {
           headers: {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",

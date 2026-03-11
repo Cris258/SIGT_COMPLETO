@@ -26,7 +26,7 @@ const EmpleadoPage = () => {
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
-      const API_URL = "${import.meta.env.VITE_API_URL}/api";
+      const API_URL = `${import.meta.env.VITE_API_URL}/api`;
       const resTareas = await fetch(`${API_URL}/tarea`, {
         headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
       });

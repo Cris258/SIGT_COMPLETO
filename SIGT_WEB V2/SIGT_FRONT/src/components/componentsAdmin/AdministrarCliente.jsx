@@ -24,7 +24,7 @@ export default function AdministrarClientes() {
   const [toDeleteId, setToDeleteId] = useState(null);
 
   useEffect(() => {
-    fetch("${import.meta.env.VITE_API_URL}/api/clientes")
+    fetch(`${import.meta.env.VITE_API_URL}/api/clientes`)
       .then((res) => res.json())
       .then((data) => setClientes(data))
       .catch(() => {

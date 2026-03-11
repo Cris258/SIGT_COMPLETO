@@ -61,7 +61,7 @@ export default function ProduccionHistorial() {
     try {
       const token = localStorage.getItem("token");
       const idPersona = localStorage.getItem("idPersona");
-      const API_URL = "${import.meta.env.VITE_API_URL}/api";
+      const API_URL = `${import.meta.env.VITE_API_URL}/api`;
 
       console.log("📡 Cargando historial de producción...");
 
@@ -121,7 +121,7 @@ export default function ProduccionHistorial() {
   const cargarProducto = async (tarea) => {
     try {
       const token = localStorage.getItem("token");
-      const API_URL = "${import.meta.env.VITE_API_URL}/api";
+      const API_URL = `${import.meta.env.VITE_API_URL}/api`;
       const productoId = tarea.Producto_FK;
 
       console.log(`📦 Cargando producto ${productoId}`);
@@ -156,7 +156,7 @@ export default function ProduccionHistorial() {
   const cargarProduccion = async (tarea) => {
     try {
       const token = localStorage.getItem("token");
-      const API_URL = "${import.meta.env.VITE_API_URL}/api";
+      const API_URL = `${import.meta.env.VITE_API_URL}/api`;
       const tareaId = tarea.idTarea;
 
       const response = await fetch(

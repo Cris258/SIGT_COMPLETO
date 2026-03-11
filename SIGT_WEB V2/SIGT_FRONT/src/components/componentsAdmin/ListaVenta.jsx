@@ -26,7 +26,7 @@ export default function ListaVentas() {
   const cargarVentas = async () => {
     const token = localStorage.getItem("token");
     try {
-      const res = await fetch("${import.meta.env.VITE_API_URL}/api/venta", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/venta`, {
         method: "GET",
         headers: {
           Authorization: `Bearer ${token}`,

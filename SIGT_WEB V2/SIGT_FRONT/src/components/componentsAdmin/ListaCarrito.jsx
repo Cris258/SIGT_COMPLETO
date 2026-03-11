@@ -26,7 +26,7 @@ export default function ListaCarritos() {
   const cargarCarritos = async () => {
     const token = localStorage.getItem("token");
     try {
-      const res = await fetch("${import.meta.env.VITE_API_URL}/api/carrito", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/carrito`, {
         method: "GET",
         headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
       });

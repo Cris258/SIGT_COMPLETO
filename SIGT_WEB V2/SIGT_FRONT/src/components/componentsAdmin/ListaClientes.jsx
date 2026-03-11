@@ -18,7 +18,7 @@ export default function ListarClientes() {
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    fetch("${import.meta.env.VITE_API_URL}/api/persona", {
+    fetch(`${import.meta.env.VITE_API_URL}/api/persona`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

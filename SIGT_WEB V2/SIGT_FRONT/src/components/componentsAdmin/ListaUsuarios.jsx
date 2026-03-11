@@ -20,7 +20,7 @@ export default function ListaUsuarios() {
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    fetch("${import.meta.env.VITE_API_URL}/api/persona", {
+    fetch(`${import.meta.env.VITE_API_URL}/api/persona`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -199,7 +199,7 @@ export default function ListaUsuarios() {
           padding: 9px 36px 9px 14px;
           font-size: 0.9rem;
           background: rgba(255,255,255,0.75);
-          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%239b59b6' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+          background-image: url("data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%239b59b6' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
           background-repeat: no-repeat;
           background-position: right 12px center;
           color: #3d1a5c;

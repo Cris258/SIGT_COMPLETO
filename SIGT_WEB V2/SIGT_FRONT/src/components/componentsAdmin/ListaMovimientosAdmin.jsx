@@ -15,7 +15,7 @@ export default function ListaMovimientosAdmin() {
   const [loadingDetalles, setLoadingDetalles] = useState(false);
   const [generandoPDF, setGenerandoPDF] = useState(false);
 
-  const API_URL = "${import.meta.env.VITE_API_URL}/api";
+  const API_URL = `${import.meta.env.VITE_API_URL}/api`;
 
   useEffect(() => { cargarTodosDatos(); }, []);
 
@@ -219,7 +219,7 @@ export default function ListaMovimientosAdmin() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap');
+        @import url("https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&display=swap');
 
         * { box-sizing: border-box; }
 

@@ -55,7 +55,7 @@ const ActualizarDatosModal = () => {
       }
 
       const url = `${import.meta.env.VITE_API_URL}/api/persona/${userId}`;
-      console.log('🌐 Haciendo petición GET a:', url);
+     console.log(`🌐 Haciendo petición PUT a:`, url);
       
       const response = await fetch(url, {
         method: 'GET',
@@ -206,7 +206,7 @@ const ActualizarDatosModal = () => {
       console.log('📤 Enviando actualización:', datosParaActualizar);
 
       const response = await fetch(`${import.meta.env.VITE_API_URL}/api/persona/${userId}`, {
-        method: 'PUT',
+       method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`

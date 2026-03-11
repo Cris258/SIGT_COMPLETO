@@ -33,7 +33,7 @@ export default function ListaProductos() {
   useEffect(() => {
     const token = localStorage.getItem("token");
 
-    fetch("${import.meta.env.VITE_API_URL}/api/producto", {
+    fetch(`${import.meta.env.VITE_API_URL}/api/producto`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,

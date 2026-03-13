@@ -525,111 +525,79 @@ export const resetPassword = async (req, res) => {
 
 import db from "../config/connect.db.js";
 
-// Obtener clientes con sus compras
 export const obtenerClientesConCompras = async (req, res) => {
   try {
     const query = `
       SELECT 
-        p.idPersona AS ID,
-        p.Primer_Nombre AS Nombre,
-        p.Primer_Apellido AS Apellido,
-        p.Correo AS Email,
-        p.Telefono,
-        ep.NombreEstado AS Estado,
-        COUNT(DISTINCT v.idVenta) AS TotalCompras,
-        COALESCE(SUM(dv.Cantidad * dv.PrecioUnitario), 0) AS TotalGastado
-      FROM personas p
-      INNER JOIN roles r ON p.Rol_FK = r.idRol
-      INNER JOIN estadopersonas ep ON p.EstadoPersona_FK = ep.idEstadoPersona
-      LEFT JOIN venta v ON p.idPersona = v.Persona_FK
-      LEFT JOIN detalleventa dv ON v.idVenta = dv.Venta_FK
-      WHERE r.NombreRol = 'Cliente'
-      GROUP BY p.idPersona
-      ORDER BY TotalCompras DESC
+        p."idPersona" AS "ID",
+        p."Primer_Nombre" AS "Nombre",
+        p."Primer_Apellido" AS "Apellido",
+        p."Correo" AS "Email",
+        p."Telefono",
+        ep."NombreEstado" AS "Estado",
+        COUNT(DISTINCT v."idVenta") AS "TotalCompras",
+        COALESCE(SUM(dv."Cantidad" * dv."PrecioUnitario"), 0) AS "TotalGastado"
+      FROM "Personas" p
+      INNER JOIN "Roles" r ON p."Rol_FK" = r."idRol"
+      INNER JOIN "EstadoPersonas" ep ON p."EstadoPersona_FK" = ep."idEstadoPersona"
+      LEFT JOIN "Venta" v ON p."idPersona" = v."Persona_FK"
+      LEFT JOIN "DetalleVenta" dv ON v."idVenta" = dv."Venta_FK"
+      WHERE r."NombreRol" = 'Cliente'
+      GROUP BY p."idPersona", p."Primer_Nombre", p."Primer_Apellido", p."Correo", p."Telefono", ep."NombreEstado"
+      ORDER BY "TotalCompras" DESC
     `;
-
     const [clientes] = await db.query(query);
-
-    res.json({
-      success: true,
-      data: clientes,
-    });
+    res.json({ success: true, data: clientes });
   } catch (error) {
     console.error("Error al obtener clientes:", error);
-    res.status(500).json({
-      success: false,
-      message: "Error al obtener clientes",
-      error: error.message,
-    });
+    res.status(500).json({ success: false, message: "Error al obtener clientes", error: error.message });
   }
 };
 
-// Obtener top 5 mejores clientes
 export const obtenerTopClientes = async (req, res) => {
   try {
     const query = `
       SELECT 
-        p.idPersona AS ID,
-        p.Primer_Nombre AS Nombre,
-        p.Primer_Apellido AS Apellido,
-        p.Correo AS Email,
-        COUNT(DISTINCT v.idVenta) AS TotalCompras,
-        COALESCE(SUM(dv.Cantidad * dv.PrecioUnitario), 0) AS TotalGastado
-      FROM personas p
-      INNER JOIN roles r ON p.Rol_FK = r.idRol
-      LEFT JOIN venta v ON p.idPersona = v.Persona_FK
-      LEFT JOIN detalleventa dv ON v.idVenta = dv.Venta_FK
-      WHERE r.NombreRol = 'Cliente'
-      GROUP BY p.idPersona
-      ORDER BY TotalGastado DESC
+        p."idPersona" AS "ID",
+        p."Primer_Nombre" AS "Nombre",
+        p."Primer_Apellido" AS "Apellido",
+        p."Correo" AS "Email",
+        COUNT(DISTINCT v."idVenta") AS "TotalCompras",
+        COALESCE(SUM(dv."Cantidad" * dv."PrecioUnitario"), 0) AS "TotalGastado"
+      FROM "Personas" p
+      INNER JOIN "Roles" r ON p."Rol_FK" = r."idRol"
+      LEFT JOIN "Venta" v ON p."idPersona" = v."Persona_FK"
+      LEFT JOIN "DetalleVenta" dv ON v."idVenta" = dv."Venta_FK"
+      WHERE r."NombreRol" = 'Cliente'
+      GROUP BY p."idPersona", p."Primer_Nombre", p."Primer_Apellido", p."Correo"
+      ORDER BY "TotalGastado" DESC
       LIMIT 5
     `;
-
     const [topClientes] = await db.query(query);
-
-    res.json({
-      success: true,
-      data: topClientes,
-    });
+    res.json({ success: true, data: topClientes });
   } catch (error) {
     console.error("Error al obtener top clientes:", error);
-    res.status(500).json({
-      success: false,
-      message: "Error al obtener top clientes",
-      error: error.message,
-    });
+    res.status(500).json({ success: false, message: "Error al obtener top clientes", error: error.message });
   }
 };
 
-// Obtener estadísticas de clientes
 export const obtenerEstadisticasClientes = async (req, res) => {
   try {
     const query = `
       SELECT 
-        ep.NombreEstado AS Estado,
-        COUNT(*) AS Cantidad
-      FROM personas p
-      INNER JOIN roles r ON p.Rol_FK = r.idRol
-      INNER JOIN estadopersonas ep ON p.EstadoPersona_FK = ep.idEstadoPersona
-      WHERE r.NombreRol = 'Cliente'
-      GROUP BY ep.NombreEstado
+        ep."NombreEstado" AS "Estado",
+        COUNT(*) AS "Cantidad"
+      FROM "Personas" p
+      INNER JOIN "Roles" r ON p."Rol_FK" = r."idRol"
+      INNER JOIN "EstadoPersonas" ep ON p."EstadoPersona_FK" = ep."idEstadoPersona"
+      WHERE r."NombreRol" = 'Cliente'
+      GROUP BY ep."NombreEstado"
     `;
-
     const [porEstado] = await db.query(query);
-
-    res.json({
-      success: true,
-      data: {
-        porEstado,
-      },
-    });
+    res.json({ success: true, data: { porEstado } });
   } catch (error) {
     console.error("Error al obtener estadísticas:", error);
-    res.status(500).json({
-      success: false,
-      message: "Error al obtener estadísticas",
-      error: error.message,
-    });
+    res.status(500).json({ success: false, message: "Error al obtener estadísticas", error: error.message });
   }
 };
 

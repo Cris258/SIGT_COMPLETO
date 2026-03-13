@@ -323,82 +323,62 @@ export const obtenerProductos = async (req, res) => {
   try {
     const query = `
       SELECT 
-        p.idProducto AS ID,
-        p.NombreProducto AS Nombre,
-        p.Color,
-        p.Talla,
-        p.Stock,
-        p.Precio
-      FROM productos p
-      ORDER BY p.Stock ASC
+        p."idProducto" AS "ID",
+        p."NombreProducto" AS "Nombre",
+        p."Color",
+        p."Talla",
+        p."Stock",
+        p."Precio"
+      FROM "Productos" p
+      ORDER BY p."Stock" ASC
     `;
 
     const [productos] = await db.query(query);
-
     res.json({ success: true, data: productos });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Error al obtener productos",
-      error: error.message,
-    });
+    res.status(500).json({ success: false, message: "Error al obtener productos", error: error.message });
   }
 };
 
-// Top 5 productos más vendidos
 export const obtenerTopProductos = async (req, res) => {
   try {
     const query = `
       SELECT 
-        p.idProducto AS ID,
-        p.NombreProducto AS Nombre,
-        p.Color,
-        p.Talla,
-        p.Stock,
-        p.Precio,
-        COALESCE(SUM(dv.Cantidad), 0) AS UnidadesVendidas
-      FROM productos p
-      LEFT JOIN detalleventa dv ON p.idProducto = dv.Producto_FK
-      GROUP BY p.idProducto
-      ORDER BY UnidadesVendidas DESC
+        p."idProducto" AS "ID",
+        p."NombreProducto" AS "Nombre",
+        p."Color",
+        p."Talla",
+        p."Stock",
+        p."Precio",
+        COALESCE(SUM(dv."Cantidad"), 0) AS "UnidadesVendidas"
+      FROM "Productos" p
+      LEFT JOIN "DetalleVenta" dv ON p."idProducto" = dv."Producto_FK"
+      GROUP BY p."idProducto", p."NombreProducto", p."Color", p."Talla", p."Stock", p."Precio"
+      ORDER BY "UnidadesVendidas" DESC
       LIMIT 5
     `;
 
     const [topProductos] = await db.query(query);
-
     res.json({ success: true, data: topProductos });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Error al obtener top productos",
-      error: error.message,
-    });
+    res.status(500).json({ success: false, message: "Error al obtener top productos", error: error.message });
   }
 };
 
-// Estadísticas por talla
 export const obtenerEstadisticasInventario = async (req, res) => {
   try {
     const query = `
       SELECT 
-        Talla,
-        COUNT(*) AS Cantidad
-      FROM productos
-      GROUP BY Talla
-      ORDER BY Talla
+        "Talla",
+        COUNT(*) AS "Cantidad"
+      FROM "Productos"
+      GROUP BY "Talla"
+      ORDER BY "Talla"
     `;
 
     const [porTalla] = await db.query(query);
-
-    res.json({
-      success: true,
-      data: { porTalla },
-    });
+    res.json({ success: true, data: { porTalla } });
   } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Error al obtener estadísticas",
-      error: error.message,
-    });
+    res.status(500).json({ success: false, message: "Error al obtener estadísticas", error: error.message });
   }
 };

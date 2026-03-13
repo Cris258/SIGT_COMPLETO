@@ -49,7 +49,7 @@ Movimiento.init(
                 key: 'idProduccion',
             }
         }
-    }, {sequelize, modelName: "Movimiento"}
+    }, {sequelize, modelName: "Movimiento", tableName: "Movimientos", freezeTableName: true}
 );
 
 export default Movimiento;

@@ -45,7 +45,7 @@ Tarea.init(
                 key: 'idProducto',
             }
         }
-    }, {sequelize, modelName: "Tarea"}
+    }, {sequelize, modelName: "Tarea", tableName: "Tareas", freezeTableName: true}
 );
 
 export default Tarea;

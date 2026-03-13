@@ -37,7 +37,7 @@ Venta.init(
                 key: 'idPersona',
             }
         }
-    }, { sequelize, modelName: "Venta" }
+    }, { sequelize, modelName: "Venta", tableName: "Venta", freezeTableName: true }
 );
 
 export default Venta;

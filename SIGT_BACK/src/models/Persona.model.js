@@ -64,7 +64,7 @@ Persona.init(
                 key: 'idEstadoPersona',
             }
         }
-    }, {sequelize, modelName: "Persona"}
+    }, {sequelize, modelName: "Persona", tableName: "Personas", freezeTableName: true}
 );
 
 export default Persona;

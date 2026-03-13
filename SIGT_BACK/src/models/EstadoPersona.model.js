@@ -17,6 +17,6 @@ EstadoPersona.init({
         type: DataTypes.STRING,
         allowNull: true,
     },
-}, { sequelize, modelName: "EstadoPersona" });
+}, { sequelize, modelName: "EstadoPersona", tableName: "EstadoPersonas", freezeTableName: true });
 
 export default EstadoPersona;

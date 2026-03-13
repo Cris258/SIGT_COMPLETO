@@ -72,7 +72,7 @@ Producto.init(
             }
         },
     },
-    { sequelize, modelName: "Producto" }
+    { sequelize, modelName: "Producto", tableName: "Productos", freezeTableName: true }
 );
 
 export default Producto;

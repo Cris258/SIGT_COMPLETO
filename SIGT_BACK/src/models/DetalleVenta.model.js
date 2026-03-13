@@ -33,7 +33,7 @@ DetalleVenta.init(
                 key: "idVenta",
             }
         },
-    }, { sequelize, modelName: "DetalleVenta" }
+    }, { sequelize, modelName: "DetalleVenta", tableName: "DetalleVenta", freezeTableName: true }
 );
 
 export default DetalleVenta;

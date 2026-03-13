@@ -25,7 +25,7 @@ Carrito.init(
                 key: 'idPersona',
             }
         }
-    }, { sequelize, modelName: "Carrito" }
+    }, { sequelize, modelName: "Carrito", tableName: "Carritos", freezeTableName: true }
 );
 
 export default Carrito;

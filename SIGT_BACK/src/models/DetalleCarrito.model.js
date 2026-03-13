@@ -29,7 +29,7 @@ DetalleCarrito.init(
                 key: 'idProducto',
             }
         }
-    }, {sequelize, modelName: "DetalleCarrito"}
+    }, {sequelize, modelName: "DetalleCarrito", tableName: "DetalleCarritos", freezeTableName: true}
 );
 
 export default DetalleCarrito;

@@ -2,7 +2,7 @@ import tareaModel from "../models/Tarea.model.js";
 import Producto from '../models/Producto.model.js';
 import Movimiento from '../models/Movimiento.model.js';
 import Produccion from '../models/Produccion.model.js';
-import pool from "../config/connect.db.js";
+import sequelize from "../config/connect.db.js";
 
 export const createTarea = async (req, res) => {
   try {
@@ -310,7 +310,7 @@ export const getEstadisticas = async (req, res) => {
       GROUP BY EstadoTarea
     `;
 
-    const [results] = await pool.query(query);
+    const [results] = await sequelize.query(query);
 
     return res.status(200).json({
       success: true,
@@ -348,7 +348,7 @@ export const getTopEmpleados = async (req, res) => {
       LIMIT 5;
     `;
 
-    const [results] = await pool.query(query);
+    const [results] = await sequelize.query(query);
 
     return res.status(200).json({
       success: true,
@@ -382,7 +382,7 @@ export const getEmpleadosTareas = async (req, res) => {
       GROUP BY p.idPersona
     `;
 
-    const [results] = await pool.query(query);
+    const [results] = await sequelize.query(query);
 
     return res.status(200).json({
       success: true,

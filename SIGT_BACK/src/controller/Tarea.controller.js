@@ -303,11 +303,11 @@ export const getEstadisticas = async (req, res) => {
   try {
     const query = `
       SELECT 
-        EstadoTarea,
-        COUNT(*) AS Cantidad,
-        ROUND((COUNT(*) * 100.0 / (SELECT COUNT(*)FROM "Tareas")), 2) AS Porcentaje
-     FROM "Tareas"
-      GROUP BY EstadoTarea
+        "EstadoTarea",
+        COUNT(*) AS "Cantidad",
+        ROUND((COUNT(*) * 100.0 / (SELECT COUNT(*) FROM "Tareas")), 2) AS "Porcentaje"
+      FROM "Tareas"
+      GROUP BY "EstadoTarea"
     `;
 
     const [results] = await sequelize.query(query);
@@ -331,23 +331,22 @@ export const getTopEmpleados = async (req, res) => {
   try {
     const query = `
       SELECT 
-        p.idPersona,
-        CONCAT(p.Primer_Nombre, ' ', p.Primer_Apellido) AS NombreEmpleado,
-        r.NombreRol,
-        COUNT(CASE WHEN t.EstadoTarea = 'Completada' THEN 1 END) AS TareasCompletadas,
-        COUNT(CASE WHEN t.EstadoTarea = 'Pendiente' THEN 1 END) AS TareasPendientes,
-        COUNT(CASE WHEN t.EstadoTarea = 'En Progreso' THEN 1 END) AS TareasEnProgreso,
-        COUNT(t.idTarea) AS TotalTareas
+        p."idPersona",
+        CONCAT(p."Primer_Nombre", ' ', p."Primer_Apellido") AS "NombreEmpleado",
+        r."NombreRol",
+        COUNT(CASE WHEN t."EstadoTarea" = 'Completada' THEN 1 END) AS "TareasCompletadas",
+        COUNT(CASE WHEN t."EstadoTarea" = 'Pendiente' THEN 1 END) AS "TareasPendientes",
+        COUNT(CASE WHEN t."EstadoTarea" = 'En Progreso' THEN 1 END) AS "TareasEnProgreso",
+        COUNT(t."idTarea") AS "TotalTareas"
       FROM "Personas" p
-      INNER JOIN "Roles" r ON p.Rol_FK = r.idRol
-      LEFT JOIN "Tareas" t ON p.idPersona = t.Persona_FK
-      WHERE r.NombreRol IN ('Empleado','Administrador')
-      GROUP BY p.idPersona
-      HAVING COUNT(t.idTarea) > 0
-      ORDER BY TareasCompletadas DESC
+      INNER JOIN "Roles" r ON p."Rol_FK" = r."idRol"
+      LEFT JOIN "Tareas" t ON p."idPersona" = t."Persona_FK"
+      WHERE r."NombreRol" IN ('Empleado','Administrador')
+      GROUP BY p."idPersona", p."Primer_Nombre", p."Primer_Apellido", r."NombreRol"
+      HAVING COUNT(t."idTarea") > 0
+      ORDER BY "TareasCompletadas" DESC
       LIMIT 5;
     `;
-
     const [results] = await sequelize.query(query);
 
     return res.status(200).json({
@@ -369,17 +368,17 @@ export const getEmpleadosTareas = async (req, res) => {
   try {
     const query = `
       SELECT 
-        p.idPersona AS ID,
-        CONCAT(p.Primer_Nombre, ' ', p.Primer_Apellido) AS Empleado,
-        r.NombreRol AS Rol,
-        COUNT(CASE WHEN t.EstadoTarea = 'Completada' THEN 1 END) AS TareasHechas,
-        COUNT(CASE WHEN t.EstadoTarea IN ('Pendiente','En Progreso') THEN 1 END) AS Pendientes,
-        COUNT(t.idTarea) AS TotalTareas
+        p."idPersona" AS "ID",
+        CONCAT(p."Primer_Nombre", ' ', p."Primer_Apellido") AS "Empleado",
+        r."NombreRol" AS "Rol",
+        COUNT(CASE WHEN t."EstadoTarea" = 'Completada' THEN 1 END) AS "TareasHechas",
+        COUNT(CASE WHEN t."EstadoTarea" IN ('Pendiente','En Progreso') THEN 1 END) AS "Pendientes",
+        COUNT(t."idTarea") AS "TotalTareas"
       FROM "Personas" p
-      INNER JOIN "Roles" r ON p.Rol_FK = r.idRol
-      LEFT JOIN "Tareas" t ON p.idPersona = t.Persona_FK
-      WHERE r.NombreRol = 'Empleado'
-      GROUP BY p.idPersona
+      INNER JOIN "Roles" r ON p."Rol_FK" = r."idRol"
+      LEFT JOIN "Tareas" t ON p."idPersona" = t."Persona_FK"
+      WHERE r."NombreRol" = 'Empleado'
+      GROUP BY p."idPersona", p."Primer_Nombre", p."Primer_Apellido", r."NombreRol"
     `;
 
     const [results] = await sequelize.query(query);

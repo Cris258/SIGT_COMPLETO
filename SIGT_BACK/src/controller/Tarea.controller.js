@@ -388,7 +388,8 @@ export const getEmpleadosTareas = async (req, res) => {
       success: true,
       data: results,
     });
-  } catch (error) {
+} catch (error) {
+    console.error('ERROR EMPLEADOS TAREAS:', error.message, error.stack);
     return res.status(500).json({
       success: false,
       Message: "Error al obtener lista de empleados",

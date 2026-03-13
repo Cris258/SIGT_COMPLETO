@@ -305,8 +305,8 @@ export const getEstadisticas = async (req, res) => {
       SELECT 
         EstadoTarea,
         COUNT(*) AS Cantidad,
-        ROUND((COUNT(*) * 100.0 / (SELECT COUNT(*) FROM tareas)), 2) AS Porcentaje
-      FROM tareas
+        ROUND((COUNT(*) * 100.0 / (SELECT COUNT(*)FROM "Tareas")), 2) AS Porcentaje
+     FROM "Tareas"
       GROUP BY EstadoTarea
     `;
 
@@ -338,9 +338,9 @@ export const getTopEmpleados = async (req, res) => {
         COUNT(CASE WHEN t.EstadoTarea = 'Pendiente' THEN 1 END) AS TareasPendientes,
         COUNT(CASE WHEN t.EstadoTarea = 'En Progreso' THEN 1 END) AS TareasEnProgreso,
         COUNT(t.idTarea) AS TotalTareas
-      FROM personas p
-      INNER JOIN roles r ON p.Rol_FK = r.idRol
-      LEFT JOIN tareas t ON p.idPersona = t.Persona_FK
+      FROM "Personas" p
+      INNER JOIN "Roles" r ON p.Rol_FK = r.idRol
+      LEFT JOIN "Tareas" t ON p.idPersona = t.Persona_FK
       WHERE r.NombreRol IN ('Empleado','Administrador')
       GROUP BY p.idPersona
       HAVING COUNT(t.idTarea) > 0
@@ -375,9 +375,9 @@ export const getEmpleadosTareas = async (req, res) => {
         COUNT(CASE WHEN t.EstadoTarea = 'Completada' THEN 1 END) AS TareasHechas,
         COUNT(CASE WHEN t.EstadoTarea IN ('Pendiente','En Progreso') THEN 1 END) AS Pendientes,
         COUNT(t.idTarea) AS TotalTareas
-      FROM personas p
-      INNER JOIN roles r ON p.Rol_FK = r.idRol
-      LEFT JOIN tareas t ON p.idPersona = t.Persona_FK
+      FROM "Personas" p
+      INNER JOIN "Roles" r ON p.Rol_FK = r.idRol
+      LEFT JOIN "Tareas" t ON p.idPersona = t.Persona_FK
       WHERE r.NombreRol = 'Empleado'
       GROUP BY p.idPersona
     `;

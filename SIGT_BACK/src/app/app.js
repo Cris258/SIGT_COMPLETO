@@ -20,7 +20,7 @@ import reporteRoutes from '../routers/reporteRoutes.js';
 const app = express();
 
 app.use(cors({
-    origin: ['http://localhost:5173', 'http://127.0.0.1:5173', /^http:\/\/localhost:\d+$/,],
+    origin: ['http://localhost:5173', 'http://127.0.0.1:5173', /^http:\/\/localhost:\d+$/, 'https://sigt-frontend-git-testing-cris258s-projects.vercel.app', /\.vercel\.app$/],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],

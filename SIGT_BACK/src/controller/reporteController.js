@@ -297,12 +297,12 @@ class ReporteController {
 
       const carritos = await reporteService.obtenerCarritosAbandonados();
 
-      if (carritos.length === 0) {
-        return res.status(404).json({
-          success: false,
-          message: "No hay carritos abandonados o pendientes",
-        });
-      }
+    if (carritos.length === 0) {
+  return res.status(404).json({
+    success: false,
+    message: "No hay carritos abandonados o pendientes",
+  });
+}
 
       console.log(`✅ ${carritos.length} carritos encontrados`);
 

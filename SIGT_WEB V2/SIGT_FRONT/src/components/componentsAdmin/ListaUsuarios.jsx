@@ -112,6 +112,9 @@ export default function ListaUsuarios() {
     );
   }
 
+  // ── SVG arrow para el select (sin comillas mezcladas) ──
+  const selectArrowSvg = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%239b59b6' d='M6 8L1 3h10z'/%3E%3C/svg%3E")`;
+
   return (
     <>
       <style>{`
@@ -193,13 +196,13 @@ export default function ListaUsuarios() {
           border-color: #9b59b6;
           box-shadow: 0 0 0 3px rgba(155,89,182,0.14);
           background: #fff;
-        }        .lu-select {
+        }
+        .lu-select {
           border: 1.8px solid #e8d0f8;
           border-radius: 10px;
           padding: 9px 36px 9px 14px;
           font-size: 0.9rem;
-          background: rgba(255,255,255,0.75);
-          background-image: url("data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%239b59b6' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+          background-color: rgba(255,255,255,0.75);
           background-repeat: no-repeat;
           background-position: right 12px center;
           color: #3d1a5c;
@@ -434,7 +437,6 @@ export default function ListaUsuarios() {
 
             {/* ── Filtros ── */}
             <div className="lu-filters">
-              {/* Búsqueda: flex:1 para que ocupe todo el ancho disponible */}
               <div className="lu-search-wrap">
                 <i className="bi bi-search lu-search-icon"></i>
                 <input
@@ -446,11 +448,12 @@ export default function ListaUsuarios() {
                 />
               </div>
 
-              {/* Selector de rol */}
+              {/* ── El backgroundImage del select se pasa como prop de estilo para evitar conflictos de escape ── */}
               <select
                 className="lu-select"
                 value={rolFiltro}
                 onChange={(e) => handleRol(e.target.value)}
+                style={{ backgroundImage: selectArrowSvg }}
               >
                 {ROLES.map((r) => (
                   <option key={r} value={r}>
@@ -531,7 +534,7 @@ export default function ListaUsuarios() {
                   )}
                 </tbody>
               </table>
-            </div>{/* fin lu-scroll */}
+            </div>
 
             {/* ── Paginador ── */}
             {totalPaginas > 1 && (
@@ -573,7 +576,7 @@ export default function ListaUsuarios() {
               </>
             )}
 
-          </div>{/* fin lu-card */}
+          </div>
         </div>
       </div>
 

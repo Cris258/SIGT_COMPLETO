@@ -57,9 +57,17 @@ dev_dependencies:
   flutter_lints: ^6.0.0
   build_runner: ^2.4.7
   json_serializable: ^6.7.1
+  flutter_launcher_icons: ^0.14.1
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/icon/logo.jpg"
+  min_sdk_android: 21
 
 flutter:
   uses-material-design: true
 
   assets:
     - assets/images/
+    - assets/images/icon/

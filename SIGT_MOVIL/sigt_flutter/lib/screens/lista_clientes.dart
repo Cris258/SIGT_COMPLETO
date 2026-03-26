@@ -54,12 +54,10 @@ class _ListaClientesState extends State<ListaClientes> {
         final data = json.decode(response.body);
         final List<dynamic> personasJson = data['body'];
 
-        // Convertir a objetos Persona
         final List<Persona> todasPersonas = personasJson
             .map((json) => Persona.fromJson(json))
             .toList();
 
-        // Filtrar solo clientes
         final soloClientes = todasPersonas.where((persona) {
           return persona.nombreRol?.toLowerCase() == 'cliente';
         }).toList();
@@ -120,9 +118,7 @@ class _ListaClientesState extends State<ListaClientes> {
 
     String searchLower = search.toLowerCase();
     return clientes.where((c) {
-      return (c.numeroDocumento.toString()).toLowerCase().contains(
-            searchLower,
-          ) ||
+      return (c.numeroDocumento.toString()).toLowerCase().contains(searchLower) ||
           c.tipoDocumento.toLowerCase().contains(searchLower) ||
           c.primerNombre.toLowerCase().contains(searchLower) ||
           (c.segundoNombre ?? '').toLowerCase().contains(searchLower) ||
@@ -134,7 +130,9 @@ class _ListaClientesState extends State<ListaClientes> {
   }
 
   Color _getEstadoColor(int estadoPersonaFk) {
-    return estadoPersonaFk == 1 ? const Color.fromARGB(255, 95, 229, 99) : Colors.red;
+    return estadoPersonaFk == 1
+        ? const Color.fromARGB(255, 95, 229, 99)
+        : Colors.red;
   }
 
   @override
@@ -213,14 +211,12 @@ class _ListaClientesState extends State<ListaClientes> {
                               ),
                             ),
 
-                            // Buscador
                             Container(
                               constraints: const BoxConstraints(maxWidth: 600),
                               margin: const EdgeInsets.symmetric(vertical: 16),
                               child: TextField(
                                 decoration: InputDecoration(
-                                  hintText:
-                                      'Buscar por nombre, correo, documento...',
+                                  hintText: 'Buscar por nombre, correo, documento...',
                                   prefixIcon: const Icon(Icons.search),
                                   suffixIcon: search.isNotEmpty
                                       ? IconButton(
@@ -246,7 +242,6 @@ class _ListaClientesState extends State<ListaClientes> {
                               ),
                             ),
 
-                            // Lista de Cards
                             _buildListaClientes(),
                           ],
                         ),
@@ -306,77 +301,66 @@ class _ListaClientesState extends State<ListaClientes> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // FILA PRINCIPAL: ID, Nombre y Estado
-                Row(
+                // FILA PRINCIPAL: 2 filas
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // ID SECUENCIAL (001, 002, 003...)
-                    SizedBox(
-                      width: 60,
-                      child: Text(
-                        '#$numeroSecuencial',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(width: 12),
-
-                    // Nombre completo
-                    Expanded(
-                      child: Text(
-                        '${cliente.primerNombre} ${cliente.segundoNombre ?? ''} ${cliente.primerApellido} ${cliente.segundoApellido ?? ''}'
-                            .trim(),
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(width: 12),
-
-                    // ESTADO
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 6,
-                      ),
-                      decoration: BoxDecoration(
-                        color: _getEstadoColor(cliente.estadoPersonaFk),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text(
-                        cliente.estadoPersonaFk == 1 ? 'Activo' : 'Inactivo',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(width: 12),
-
-                    // ACCIONES
+                    // Fila 1: Número + Estado + Botones
                     Row(
-                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        // Editar
-                        IconButton(
-                          icon: const Icon(Icons.edit, color: Colors.blue),
-                          onPressed: () => _abrirModalEditar(cliente),
-                          tooltip: 'Editar',
+                        Text(
+                          '#$numeroSecuencial',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            color: Colors.grey,
+                          ),
                         ),
-
-                        // Eliminar
-                        IconButton(
-                          icon: const Icon(Icons.delete, color: Colors.red),
-                          onPressed: () => _abrirModalEliminar(cliente),
-                          tooltip: 'Eliminar',
+                        Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 6,
+                              ),
+                              decoration: BoxDecoration(
+                                color: _getEstadoColor(cliente.estadoPersonaFk),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Text(
+                                cliente.estadoPersonaFk == 1
+                                    ? 'Activo'
+                                    : 'Inactivo',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.edit, color: Colors.blue),
+                              onPressed: () => _abrirModalEditar(cliente),
+                              tooltip: 'Editar',
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.delete, color: Colors.red),
+                              onPressed: () => _abrirModalEliminar(cliente),
+                              tooltip: 'Eliminar',
+                            ),
+                          ],
                         ),
                       ],
+                    ),
+
+                    // Fila 2: Nombre completo
+                    Text(
+                      '${cliente.primerNombre} ${cliente.segundoNombre ?? ''} ${cliente.primerApellido} ${cliente.segundoApellido ?? ''}'.trim(),
+                      style: const TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
@@ -388,19 +372,12 @@ class _ListaClientesState extends State<ListaClientes> {
                   spacing: 20,
                   runSpacing: 8,
                   children: [
-                    // Documento
                     _buildInfoChip(
                       Icons.badge,
                       '${cliente.tipoDocumento}: ${cliente.numeroDocumento}',
                     ),
-
-                    // Rol
                     _buildInfoChip(Icons.work, cliente.nombreRol ?? 'Sin rol'),
-
-                    // Teléfono
                     _buildInfoChip(Icons.phone, cliente.telefono),
-
-                    // Correo
                     _buildInfoChip(Icons.email, cliente.correo),
                   ],
                 ),

@@ -688,9 +688,22 @@ class _AdminInventarioPageState extends State<AdminInventarioPage> {
                                             vertical: 4,
                                           ),
                                           decoration: BoxDecoration(
-                                            color: (prod['Stock'] ?? 0) > 10
+                                            color:
+                                                (int.tryParse(
+                                                          prod['Stock']
+                                                                  ?.toString() ??
+                                                              '0',
+                                                        ) ??
+                                                        0) >
+                                                    10
                                                 ? Colors.green
-                                                : (prod['Stock'] ?? 0) > 5
+                                                : (int.tryParse(
+                                                            prod['Stock']
+                                                                    ?.toString() ??
+                                                                '0',
+                                                          ) ??
+                                                          0) >
+                                                      5
                                                 ? Colors.orange
                                                 : Colors.red,
                                             borderRadius: BorderRadius.circular(
@@ -908,10 +921,18 @@ class _AdminInventarioPageState extends State<AdminInventarioPage> {
                         sections: porTalla.asMap().entries.map((entry) {
                           final total = porTalla.fold<double>(
                             0,
-                            (sum, item) => sum + (item['Cantidad'] ?? 0),
+                            (sum, item) =>
+                                sum +
+                                (double.tryParse(
+                                      item['Cantidad']?.toString() ?? '0',
+                                    ) ??
+                                    0),
                           );
-                          final value = (entry.value['Cantidad'] ?? 0)
-                              .toDouble();
+                          final value =
+                              double.tryParse(
+                                entry.value['Cantidad']?.toString() ?? '0',
+                              ) ??
+                              0.0;
                           final percent = ((value / total) * 100)
                               .toStringAsFixed(1);
 

@@ -1055,8 +1055,12 @@ class _AdminClientesPageState extends State<AdminClientesPage> {
                               }
 
                               return PieChartSectionData(
-                                value: cantidad.toDouble(),
-                                title: cantidad.toString(),
+                                value:
+                                    double.tryParse(
+                                      cantidad?.toString() ?? '0',
+                                    ) ??
+                                    0.0,
+                                title: cantidad?.toString() ?? '0',
                                 color: color,
                                 radius: 50,
                                 titleStyle: const TextStyle(

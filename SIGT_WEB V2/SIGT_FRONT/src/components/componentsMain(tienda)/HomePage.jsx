@@ -54,13 +54,16 @@ export default function HomePage() {
             </h1>
             <p className="lead mt-3 fs-4 lato-font">
               Comienza tu día con energía positiva y alcanza cada meta que te
-              propongas. La comodidad empieza contigo.
+              propongas. La comodidad empieza contigo. Descarga nuestra app para
+              descubrir la comodidad de nuestras pijamas y llevar la vibra
+              positiva a donde vayas.
             </p>
             <a
-              href="#nuestrosproductos"
+              href="https://vibrapositiva.vercel.app/app-release.apk"
               className="btn btn-dark mt-3 merriweather-font fw-bold"
+              download="VibraPositiva.apk"
             >
-              Ver productos
+              Descargar APK
             </a>
           </div>
           {/* SLIDER */}

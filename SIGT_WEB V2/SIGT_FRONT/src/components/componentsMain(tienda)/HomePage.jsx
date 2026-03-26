@@ -59,7 +59,7 @@ export default function HomePage() {
               positiva a donde vayas.
             </p>
             <a
-              href="https://vibrapositiva.vercel.app/app-release.apk"
+              href="https://vibrapositiva.vercel.app/VibraPositiva.apk"
               className="btn btn-dark mt-3 merriweather-font fw-bold"
             >
               Descargar APK

@@ -513,11 +513,82 @@ class _AdminPageState extends State<AdminPage> {
   }
 
   Widget _buildEmpleadosCard() {
+    // PROTECCIÓN: si no hay empleados, mostrar mensaje
+    if (empleados.isEmpty) {
+      return Card(
+        elevation: 2,
+        child: Column(
+          children: [
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: const BoxDecoration(
+                color: Color(0xFF7cbbe4),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(4),
+                  topRight: Radius.circular(4),
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Row(
+                    children: [
+                      Icon(Icons.people, size: 20),
+                      SizedBox(width: 8),
+                      Text(
+                        'Empleados y Tareas',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  ElevatedButton.icon(
+                    onPressed: isLoading ? null : _cargarDatos,
+                    icon: const Icon(Icons.refresh, size: 18),
+                    label: const Text('Actualizar'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF4A148C),
+                      foregroundColor: Colors.white,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.all(32),
+              child: Column(
+                children: [
+                  Icon(Icons.info_outline, size: 48, color: Colors.grey),
+                  SizedBox(height: 8),
+                  Text('No hay empleados registrados'),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    // PROTECCIÓN: resetear página si está fuera de rango
     final totalPages = (empleados.length / _itemsPerPage).ceil();
+    if (_currentPage >= totalPages) {
+      _currentPage = 0;
+    }
+
     final startIndex = _currentPage * _itemsPerPage;
     final endIndex = (startIndex + _itemsPerPage > empleados.length)
         ? empleados.length
         : startIndex + _itemsPerPage;
+
+    // PROTECCIÓN: verificar que los índices sean válidos
+    if (startIndex >= empleados.length) {
+      _currentPage = 0;
+      return const Center(child: CircularProgressIndicator());
+    }
+
     final empleadosPaginados = empleados.sublist(startIndex, endIndex);
 
     return Card(
@@ -599,204 +670,194 @@ class _AdminPageState extends State<AdminPage> {
               ],
             ),
           ),
-          empleados.isEmpty
-              ? const Padding(
-                  padding: EdgeInsets.all(32),
-                  child: Column(
-                    children: [
-                      Icon(Icons.info_outline, size: 48, color: Colors.grey),
-                      SizedBox(height: 8),
-                      Text('No hay empleados registrados'),
-                    ],
-                  ),
-                )
-              : Column(
-                  children: [
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: DataTable(
-                        columns: const [
-                          DataColumn(
-                            label: Text(
-                              'N°',
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          DataColumn(label: Text('Empleado')),
-                          DataColumn(label: Text('Rol')),
-                          DataColumn(label: Text('Hechas')),
-                          DataColumn(label: Text('Pendientes')),
-                          DataColumn(label: Text('Total')),
-                          DataColumn(label: Text('Progreso')),
-                        ],
-                        rows: empleadosPaginados.asMap().entries.map((entry) {
-                          final index = entry.key;
-                          final emp = entry.value;
-                          final numeroSecuencial = startIndex + index + 1;
-                          final numeroFormateado = numeroSecuencial
-                              .toString()
-                              .padLeft(3, '0');
-                          final progreso = _calcularProgreso(
-                            emp['TareasHechas'] ?? 0,
-                            emp['TotalTareas'] ?? 0,
-                          );
-                          return DataRow(
-                            cells: [
-                              DataCell(
-                                Center(
-                                  child: Text(
-                                    numeroFormateado,
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.normal,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              DataCell(
-                                Row(
-                                  children: [
-                                    const Icon(Icons.person_outline, size: 16),
-                                    const SizedBox(width: 4),
-                                    Text(emp['Empleado'] ?? ''),
-                                  ],
-                                ),
-                              ),
-                              DataCell(Text(emp['Rol'] ?? '')),
-                              DataCell(
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 8,
-                                    vertical: 4,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFFA8E6CF),
-                                    borderRadius: BorderRadius.circular(4),
-                                  ),
-                                  child: Text('${emp['TareasHechas']}'),
-                                ),
-                              ),
-                              DataCell(
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 8,
-                                    vertical: 4,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFFFFB6B9),
-                                    borderRadius: BorderRadius.circular(4),
-                                  ),
-                                  child: Text('${emp['Pendientes']}'),
-                                ),
-                              ),
-                              DataCell(
-                                Text(
-                                  '${emp['TotalTareas']}',
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                              DataCell(
-                                SizedBox(
-                                  width: 100,
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      LinearProgressIndicator(
-                                        value: progreso / 100,
-                                        backgroundColor: Colors.grey[300],
-                                        valueColor:
-                                            AlwaysStoppedAnimation<Color>(
-                                              _getColorProgreso(progreso),
-                                            ),
-                                        minHeight: 20,
-                                      ),
-                                      Text(
-                                        '$progreso%',
-                                        style: const TextStyle(fontSize: 10),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          );
-                        }).toList(),
+          Column(
+            children: [
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: DataTable(
+                  columns: const [
+                    DataColumn(
+                      label: Text(
+                        'N°',
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
-                    if (empleados.length > _itemsPerPage)
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 12,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.grey[100],
-                          border: Border(
-                            top: BorderSide(color: Colors.grey[300]!),
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Mostrando ${startIndex + 1}-$endIndex de ${empleados.length}',
+                    DataColumn(label: Text('Empleado')),
+                    DataColumn(label: Text('Rol')),
+                    DataColumn(label: Text('Hechas')),
+                    DataColumn(label: Text('Pendientes')),
+                    DataColumn(label: Text('Total')),
+                    DataColumn(label: Text('Progreso')),
+                  ],
+                  rows: empleadosPaginados.asMap().entries.map((entry) {
+                    final index = entry.key;
+                    final emp = entry.value;
+                    final numeroSecuencial = startIndex + index + 1;
+                    final numeroFormateado = numeroSecuencial
+                        .toString()
+                        .padLeft(3, '0');
+                    final tareasHechas =
+                        int.tryParse(emp['TareasHechas']?.toString() ?? '0') ??
+                        0;
+                    final totalTareas =
+                        int.tryParse(emp['TotalTareas']?.toString() ?? '0') ??
+                        0;
+                    final progreso = _calcularProgreso(
+                      tareasHechas,
+                      totalTareas,
+                    );
+                    return DataRow(
+                      cells: [
+                        DataCell(
+                          Center(
+                            child: Text(
+                              numeroFormateado,
                               style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.normal,
+                                color: Colors.black,
                               ),
                             ),
-                            Row(
+                          ),
+                        ),
+                        DataCell(
+                          Row(
+                            children: [
+                              const Icon(Icons.person_outline, size: 16),
+                              const SizedBox(width: 4),
+                              Text(emp['Empleado']?.toString() ?? ''),
+                            ],
+                          ),
+                        ),
+                        DataCell(Text(emp['Rol']?.toString() ?? '')),
+                        DataCell(
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFA8E6CF),
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            child: Text('$tareasHechas'),
+                          ),
+                        ),
+                        DataCell(
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFFFB6B9),
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            child: Text(
+                              '${int.tryParse(emp['Pendientes']?.toString() ?? '0') ?? 0}',
+                            ),
+                          ),
+                        ),
+                        DataCell(
+                          Text(
+                            '$totalTareas',
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        DataCell(
+                          SizedBox(
+                            width: 100,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                IconButton(
-                                  onPressed: _currentPage > 0
-                                      ? () {
-                                          setState(() {
-                                            _currentPage--;
-                                          });
-                                        }
-                                      : null,
-                                  icon: const Icon(Icons.chevron_left),
-                                  tooltip: 'Página anterior',
-                                  color: const Color(0xFF4A148C),
+                                LinearProgressIndicator(
+                                  value: progreso.toDouble() / 100,
+                                  backgroundColor: Colors.grey[300],
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    _getColorProgreso(progreso),
+                                  ),
+                                  minHeight: 20,
                                 ),
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 12,
-                                    vertical: 6,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFF7cbbe4),
-                                    borderRadius: BorderRadius.circular(4),
-                                  ),
-                                  child: Text(
-                                    'Página ${_currentPage + 1} de $totalPages',
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                                IconButton(
-                                  onPressed: _currentPage < totalPages - 1
-                                      ? () {
-                                          setState(() {
-                                            _currentPage++;
-                                          });
-                                        }
-                                      : null,
-                                  icon: const Icon(Icons.chevron_right),
-                                  tooltip: 'Página siguiente',
-                                  color: const Color(0xFF4A148C),
+                                Text(
+                                  '$progreso%',
+                                  style: const TextStyle(fontSize: 10),
                                 ),
                               ],
                             ),
-                          ],
+                          ),
+                        ),
+                      ],
+                    );
+                  }).toList(),
+                ),
+              ),
+              if (empleados.length > _itemsPerPage)
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 12,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[100],
+                    border: Border(top: BorderSide(color: Colors.grey[300]!)),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Mostrando ${startIndex + 1}-$endIndex de ${empleados.length}',
+                        style: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
-                  ],
+                      Row(
+                        children: [
+                          IconButton(
+                            onPressed: _currentPage > 0
+                                ? () {
+                                    setState(() {
+                                      _currentPage--;
+                                    });
+                                  }
+                                : null,
+                            icon: const Icon(Icons.chevron_left),
+                            color: const Color(0xFF4A148C),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 6,
+                            ),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF7cbbe4),
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                            child: Text(
+                              'Página ${_currentPage + 1} de $totalPages',
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                            onPressed: _currentPage < totalPages - 1
+                                ? () {
+                                    setState(() {
+                                      _currentPage++;
+                                    });
+                                  }
+                                : null,
+                            icon: const Icon(Icons.chevron_right),
+                            color: const Color(0xFF4A148C),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
+            ],
+          ),
         ],
       ),
     );
@@ -876,7 +937,7 @@ class _AdminPageState extends State<AdminPage> {
                           PieChartData(
                             sections: generalStats.map((item) {
                               return PieChartSectionData(
-                                value: (item['Cantidad'] ?? 0).toDouble(),
+                                value: double.tryParse(item['Cantidad']?.toString() ?? '0') ?? 0.0,
                                 title: '${item['Cantidad']}',
                                 color: _getColorEstado(item['EstadoTarea']),
                                 radius: 50,

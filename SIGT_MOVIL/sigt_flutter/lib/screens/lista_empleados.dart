@@ -54,12 +54,10 @@ class _ListaEmpleadosState extends State<ListaEmpleados> {
         final data = json.decode(response.body);
         final List<dynamic> personasJson = data['body'];
 
-        // Convertir a objetos Persona
         final List<Persona> todasPersonas = personasJson
             .map((json) => Persona.fromJson(json))
             .toList();
 
-        // Filtrar solo empleados usando rolFk == 3
         final soloEmpleados = todasPersonas.where((persona) {
           return persona.rolFk == 3;
         }).toList();
@@ -121,9 +119,7 @@ class _ListaEmpleadosState extends State<ListaEmpleados> {
 
     String searchLower = search.toLowerCase();
     return empleados.where((e) {
-      return (e.numeroDocumento.toString()).toLowerCase().contains(
-            searchLower,
-          ) ||
+      return (e.numeroDocumento.toString()).toLowerCase().contains(searchLower) ||
           e.tipoDocumento.toLowerCase().contains(searchLower) ||
           e.primerNombre.toLowerCase().contains(searchLower) ||
           (e.segundoNombre ?? '').toLowerCase().contains(searchLower) ||
@@ -214,14 +210,12 @@ class _ListaEmpleadosState extends State<ListaEmpleados> {
                               ),
                             ),
 
-                            // Buscador
                             Container(
                               constraints: const BoxConstraints(maxWidth: 600),
                               margin: const EdgeInsets.symmetric(vertical: 16),
                               child: TextField(
                                 decoration: InputDecoration(
-                                  hintText:
-                                      'Buscar por nombre, correo, documento...',
+                                  hintText: 'Buscar por nombre, correo, documento...',
                                   prefixIcon: const Icon(Icons.search),
                                   suffixIcon: search.isNotEmpty
                                       ? IconButton(
@@ -247,7 +241,6 @@ class _ListaEmpleadosState extends State<ListaEmpleados> {
                               ),
                             ),
 
-                            // Lista de Cards
                             _buildListaEmpleados(),
                           ],
                         ),
@@ -307,77 +300,64 @@ class _ListaEmpleadosState extends State<ListaEmpleados> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // FILA PRINCIPAL: ID, Nombre y Estado
-                Row(
+                // FILA PRINCIPAL: 2 filas
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // ID SECUENCIAL (001, 002, 003...)
-                    SizedBox(
-                      width: 60,
-                      child: Text(
-                        '#$numeroSecuencial',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(width: 12),
-
-                    // Nombre completo
-                    Expanded(
-                      child: Text(
-                        '${empleado.primerNombre} ${empleado.segundoNombre ?? ''} ${empleado.primerApellido} ${empleado.segundoApellido ?? ''}'
-                            .trim(),
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(width: 12),
-
-                    // ESTADO
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 6,
-                      ),
-                      decoration: BoxDecoration(
-                        color: _getEstadoColor(empleado.estaActivo),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text(
-                        empleado.estaActivo ? 'Activo' : 'Inactivo',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 12,
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(width: 12),
-
-                    // ACCIONES
+                    // Fila 1: Número + Estado + Botones
                     Row(
-                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        // Editar
-                        IconButton(
-                          icon: const Icon(Icons.edit, color: Colors.blue),
-                          onPressed: () => _abrirModalEditar(empleado),
-                          tooltip: 'Editar',
+                        Text(
+                          '#$numeroSecuencial',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            color: Colors.grey,
+                          ),
                         ),
-
-                        // Eliminar
-                        IconButton(
-                          icon: const Icon(Icons.delete, color: Colors.red),
-                          onPressed: () => _abrirModalEliminar(empleado),
-                          tooltip: 'Eliminar',
+                        Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 6,
+                              ),
+                              decoration: BoxDecoration(
+                                color: _getEstadoColor(empleado.estaActivo),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Text(
+                                empleado.estaActivo ? 'Activo' : 'Inactivo',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.edit, color: Colors.blue),
+                              onPressed: () => _abrirModalEditar(empleado),
+                              tooltip: 'Editar',
+                            ),
+                            IconButton(
+                              icon: const Icon(Icons.delete, color: Colors.red),
+                              onPressed: () => _abrirModalEliminar(empleado),
+                              tooltip: 'Eliminar',
+                            ),
+                          ],
                         ),
                       ],
+                    ),
+
+                    // Fila 2: Nombre completo
+                    Text(
+                      '${empleado.primerNombre} ${empleado.segundoNombre ?? ''} ${empleado.primerApellido} ${empleado.segundoApellido ?? ''}'.trim(),
+                      style: const TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ],
                 ),
@@ -389,19 +369,12 @@ class _ListaEmpleadosState extends State<ListaEmpleados> {
                   spacing: 20,
                   runSpacing: 8,
                   children: [
-                    // Documento
                     _buildInfoChip(
                       Icons.badge,
                       '${empleado.tipoDocumento}: ${empleado.numeroDocumento}',
                     ),
-
-                    // Rol
                     _buildInfoChip(Icons.work, empleado.nombreRol ?? 'Sin rol'),
-
-                    // Teléfono
                     _buildInfoChip(Icons.phone, empleado.telefono),
-
-                    // Correo
                     _buildInfoChip(Icons.email, empleado.correo),
                   ],
                 ),

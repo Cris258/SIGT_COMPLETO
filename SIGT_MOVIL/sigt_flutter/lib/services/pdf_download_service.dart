@@ -6,6 +6,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:open_file/open_file.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../config/app_config.dart';
 
 // Importación condicional correcta
 import 'pdf_download_service_mobile.dart'
@@ -13,19 +14,7 @@ import 'pdf_download_service_mobile.dart'
 
 class PdfDownloadService {
   // URL dinámica según la plataforma
-  static String get baseUrl {
-    if (kIsWeb) {
-      return 'http://localhost:3001/api/reportes';
-    } else if (Platform.isAndroid) {
-      // 10.0.2.2 es la IP del host desde el emulador de Android
-      return 'http://10.0.2.2:3001/api/reportes';
-    } else if (Platform.isIOS) {
-      // localhost funciona en el simulador de iOS
-      return 'http://localhost:3001/api/reportes';
-    } else {
-      return 'http://localhost:3001/api/reportes';
-    }
-  }
+  static String get baseUrl => '${AppConfig.baseUrl}/reportes';
 
   /// Método genérico para descargar cualquier reporte PDF
   static Future<void> _descargarReporte({

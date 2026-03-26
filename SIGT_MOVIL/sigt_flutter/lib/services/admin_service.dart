@@ -10,7 +10,7 @@ class AdminService {
     final token = prefs.getString('auth_token');
     print(' Token obtenido: ${token != null ? "Existe" : "No existe"}');
     if (token != null && token.isNotEmpty) {
-      print('🔑 Token preview: ${token.substring(0, token.length > 20 ? 20 : token.length)}...');
+      print('Token preview: ${token.substring(0, token.length > 20 ? 20 : token.length)}...');
     }
     return token;
   }

@@ -1,57 +1,63 @@
-import 'package:http/http.dart' as http;
 import 'dart:convert';
-import '../models/tarea.dart'; // Importa el modelo creado en el paso 1
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import '../config/app_config.dart';
+import '../models/tarea.dart';
 
 class TareaService {
-  // Configuración de la URL BASE. 
-  // NOTA: Para EMULADORES de Android, debes cambiar 'localhost' por '10.0.2.2' manualmente.
-  final String _baseIP = 'localhost'; // Usamos 'localhost' como predeterminado
-  late final String _baseUrl = 'http://$_baseIP:3001/api/tarea'; 
-  
-  //  TOKEN JWT INSERTADO 
-  // Se añade el prefijo 'Bearer ' que es el esquema de autenticación estándar.
-  final String _authToken = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiY29ycmVvIjoiY3Jpc21hdGl1czQ2QGdtYWlsLmNvbSIsInJvbCI6IlN1cGVyQWRtaW4iLCJpYXQiOjE3NjM5MzQxMzMsImV4cCI6MTc2MzkzNzczM30.WrRxhSOUNYwaMVAwg4QlKxXOQJjyDtGawPOziorFyf8'; 
+  // Obtener token desde SharedPreferences
+  Future<String?> _getToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('auth_token');
+  }
 
-  /// Realiza la solicitud POST para crear una nueva tarea.
-  /// Retorna un Map (respuesta JSON del servidor) si tiene éxito (201), o null si falla.
-  Future<Map<String, dynamic>?> crearTarea(Tarea nuevaTarea) async {
-    final url = Uri.parse(_baseUrl);
-
-    // 1. Mapeo del modelo Dart a la estructura JSON esperada por tu API
-    final bodyData = {
-      'Descripcion': nuevaTarea.descripcion,
-      'FechaAsignacion': nuevaTarea.fechaAsignacion,
-      'FechaLimite': nuevaTarea.fechaLimite,
-      'EstadoTarea': nuevaTarea.estadoTarea,
-      'Prioridad': nuevaTarea.prioridad,
-      'Persona_FK': nuevaTarea.personaFk.toString(), 
+  // Headers con autorización
+  Future<Map<String, String>> _getHeaders() async {
+    final token = await _getToken();
+    return {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${token ?? ''}',
     };
+  }
 
+  // Crear una nueva tarea
+  Future<Map<String, dynamic>?> crearTarea(Tarea nuevaTarea) async {
     try {
-      print('Intentando enviar POST a: $_baseUrl');
-      
+      final headers = await _getHeaders();
+      final url = Uri.parse(AppConfig.endpoint('tarea'));
+
+      final bodyData = {
+        'Descripcion': nuevaTarea.descripcion,
+        'FechaAsignacion': nuevaTarea.fechaAsignacion,
+        'FechaLimite': nuevaTarea.fechaLimite,
+        'EstadoTarea': nuevaTarea.estadoTarea,
+        'Prioridad': nuevaTarea.prioridad,
+        'Persona_FK': nuevaTarea.personaFk.toString(),
+      };
+
+      print('POST a: ${AppConfig.endpoint('tarea')}');
+
       final response = await http.post(
         url,
-        headers: {
-          'Content-Type': 'application/json', // Informa al servidor que enviamos JSON
-          'Authorization': _authToken,        //  AQUÍ SE ENVÍA EL TOKEN 
-        },
-        body: json.encode(bodyData), // Convierte el mapa de Dart a una cadena JSON
+        headers: headers,
+        body: json.encode(bodyData),
       );
 
+      print('Status: ${response.statusCode}');
+      print('Body: ${response.body}');
+
       if (response.statusCode == 201) {
-        // Tarea Creada exitosamente
-        print('API Éxito: Tarea Creada.');
-        return json.decode(response.body); // Retorna la respuesta completa del servidor
+        print('Tarea creada exitosamente');
+        return json.decode(response.body);
+      } else if (response.statusCode == 401) {
+        print('Token inválido o expirado');
+        return null;
       } else {
-        // Error de la API (400, 500, etc., o 401 si el token es incorrecto)
-        print('API Error: Status ${response.statusCode}');
-        print('Respuesta del servidor: ${response.body}');
+        print('Error ${response.statusCode}: ${response.body}');
         return null;
       }
     } catch (e) {
-      // Error de red o conexión
-      print('Error de conexión/excepción: $e');
+      print('Error de conexión: $e');
       return null;
     }
   }
